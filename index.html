@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Medical Quiz</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+        background-color: #f4f4f4;
+      }
+      .container {
+        max-width: 600px;
+        margin: auto;
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+      }
+      h2 {
+        text-align: center;
+      }
+      .question {
+        font-size: 18px;
+        margin-bottom: 10px;
+      }
+      .options button {
+        display: block;
+        width: 100%;
+        margin: 5px 0;
+        padding: 10px;
+        border: 1px solid #ddd;
+        background: #f9f9f9;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: 0.3s;
+      }
+      .options button.correct {
+        background: #28a745;
+        color: white;
+      }
+      .options button.wrong {
+        background: #dc3545;
+        color: white;
+      }
+      .options button:hover {
+        background: #ddd;
+      }
+      .next-btn {
+        display: none;
+        margin-top: 20px;
+        padding: 10px;
+        width: 100%;
+        background: #007bff;
+        color: white;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Anatomiya test</h2>
+      <div class="question" id="question">Loading...</div>
+      <div class="options" id="options"></div>
+      <button class="next-btn" id="nextBtn" onclick="loadQuestion()">
+        Keyingi savol
+      </button>
+    </div>
+
+    <script>
+      const questions = [
+        {
+          question: "NOG`ORA BO`SHLIG`INING YUQORIGI DEVORI?",
+          options: [
+            "PARIES TEGMENTALIS",
+            "PARIES YUGULARIS",
+            "PARIESMASTOIDEUS",
+            "PARIES CAROTICUS",
+          ],
+          answer: 0,
+        },
+        {
+          question: "KO`ZNING NUR SINDIRUVCHI APPARATI?",
+          options: [
+            "MUGUZ PARDA, KO`Z GAVHARI, SHISHASIMON TANA",
+            "KONYUNKTIVA, KO`Z GAVHARI",
+            "KO`Z GAVHARI, QOVOQLAR, KO`Z YOSH APPARATI",
+            "KO`Z GAVHARI, SHISHASIMON TANA, KO`Z MUSHAKLARI",
+          ],
+          answer: 0,
+        },
+        {
+          question: "TA`M SEZUV A`ZOSI NIMA DEYILADI?",
+          options: [
+            "ORGANUM GUSTATORIUM",
+            "ORGANUM DEGISTORIM",
+            "ORGANUM OLFAKTORIUM",
+            "ORGANUM RESPIRATORIUM",
+          ],
+          answer: 0,
+        },
+      ];
+
+      let currentQuestion = 0;
+
+      function loadQuestion() {
+        if (currentQuestion >= questions.length) {
+          document.getElementById("question").innerHTML = "Ajoyib Ruxshona!";
+          document.getElementById("options").innerHTML = "";
+          document.getElementById("nextBtn").style.display = "none";
+          return;
+        }
+
+        document.getElementById("question").innerHTML =
+          questions[currentQuestion].question;
+        document.getElementById("options").innerHTML = "";
+
+        questions[currentQuestion].options.forEach((option, index) => {
+          let button = document.createElement("button");
+          button.innerText = option;
+          button.onclick = () => checkAnswer(index);
+          document.getElementById("options").appendChild(button);
+        });
+
+        document.getElementById("nextBtn").style.display = "none";
+      }
+
+      function checkAnswer(selectedIndex) {
+        let buttons = document.querySelectorAll(".options button");
+        let correctIndex = questions[currentQuestion].answer;
+
+        buttons.forEach((btn, index) => {
+          if (index === correctIndex) {
+            btn.classList.add("correct");
+          } else if (index === selectedIndex) {
+            btn.classList.add("wrong");
+          }
+          btn.disabled = true;
+        });
+
+        document.getElementById("nextBtn").style.display = "block";
+        currentQuestion++;
+      }
+
+      loadQuestion();
+    </script>
+  </body>
+</html>
